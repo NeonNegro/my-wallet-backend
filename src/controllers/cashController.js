@@ -1,11 +1,14 @@
+import { ObjectId } from "mongodb";
 import db from "../db.js";
 
 import { types } from "../utils/utils.js"
 
+const cashCollection = db.collection("transactions");
+
 export async function allTransactions(req, res){
     try {
         
-        const transactions = await db.collection("transactions").find({}).toArray();
+        const transactions = await cashCollection.find({}).toArray();
 
         res.send(transactions);
 
@@ -48,8 +51,24 @@ export async function newOutcome(req, res){
 
 async function newTransaction(transaction){
     try {
-         await db.collection("transactions").insertOne(transaction);
+         await cashCollection.insertOne(transaction);
     } catch (err) {
         return err
+    }
+}
+
+export async function deleteTransaction(req, res){
+        let {id: _id} = req.params;
+        _id = new ObjectId(_id);
+    try {
+        const constult = await  cashCollection.findOne({_id});
+        if(!constult)
+            return res.sendStatus(404)
+
+        await cashCollection.deleteOne({_id});
+
+        res.sendStatus(204);
+    } catch (err) {
+        return res.status(500).send(err);
     }
 }
