@@ -1,6 +1,4 @@
 import db from "../db.js";
-import { newUserSchema } from "../schemas/newUserSchema.js";
-import { stripHtml } from 'string-strip-html';
 
 export default async function tokenValidationMiddleware(req, res, next){
 

@@ -1,7 +1,6 @@
 import db from "../db.js";
 import { newUserSchema } from "../schemas/newUserSchema.js";
 import { stripHtml } from 'string-strip-html';
-//import {v4 as uuid} from 'uuid';
 
 export default async function newUserSchameValidationMiddleware(req, res, next){
     const user = req.body;
